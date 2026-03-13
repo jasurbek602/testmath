@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematika Test</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="animatsiya.css">
+</head>
+<body style="background: rgb(41, 39, 39);">
+    <h1 id="cong">Ajoyib ball</h1>
+    <div class="animatsiyabolim1" style="z-index: 1000;">
+        <div class="an"></div>
+        <div class="an1"></div>
+        <div class="an2"></div>
+        <div class="an3"></div>
+        <div class="an4"></div>
+        <div class="an5"></div>
+        <div class="an6"></div>
+    </div>
+    <div class="animatsiyabolim2" style="z-index: 1000;">
+        <div class="any"></div>
+        <div class="any1"></div>
+        <div class="any2"></div>
+        <div class="any3"></div>
+        <div class="any4"></div>
+    </div>
+    <div class="container">
+    
+    <h2>Matematika Test</h2>
+    
+    <div id="login">
+    <input id="name" placeholder="Ismingizni kiriting">
+    <br><br>
+    <button onclick="startTest()" >Boshlash</button>
+    </div>
+    
+    <div id="test" style="display:none">
+    <h3 id="question"></h3>
+    <input id="answer">
+    <br>
+    <button onclick="nextQuestion()">Keyingi</button>
+    <br><br>
+    <button onclick="finishTest()">Testni tugatish</button>
+    </div>
+    
+    <div id="result" style="display:none">
+    <h2 id="score"></h2>
+    <button onclick="location.reload()">Yangi test boshlash</button>
+    </div>
+    
+    <div>
+    <h3>Natijalar</h3>
+    <ul id="history"></ul>
+    
+    <button onclick="clearResults()">Natijalarni o'chirish</button>
+    </div>
+    
+    </div>
+    
+    <script>
+        
+let current = 0
+let score = 0
+let questions = []
+
+function generateQuestions(){
+
+    for(let i=0;i<20;i++){
+
+    let a = Math.floor(Math.random()*20)
+    let b = Math.floor(Math.random()*20)
+
+    questions.push({
+        q:`${a} + ${b}`,
+        a:a+b
+    })
+    }
+}
+
+function clearResults(){
+
+    if(confirm("Hamma natijalarni o'chirmoqchimisiz?")){
+
+    localStorage.removeItem("results")
+
+    document.getElementById("history").innerHTML=""
+
+    alert("Natijalar o'chirildi")
+
+    }
+
+}
+
+function startTest(){
+
+    let name = document.getElementById("name").value
+
+    if(name==""){
+        alert("Ism kiriting")
+        return
+    }
+
+    localStorage.setItem("currentUser",name)
+
+generateQuestions()
+
+    document.getElementById("login").style.display="none"
+    document.getElementById("test").style.display="block"
+
+    showQuestion()
+
+}
+
+function showQuestion(){
+
+    document.getElementById("question").innerText =
+    (current+1)+") "+questions[current].q
+
+}
+
+function nextQuestion(){
+
+    let ans = document.getElementById("answer").value
+
+    if(ans == questions[current].a){
+        score++
+    }
+
+    document.getElementById("answer").value=""
+
+    current++
+
+    if(current<20){
+        showQuestion()
+    }else{
+        finishTest()
+    }
+}
+
+function finishTest(){
+    let cong = document.getElementById("cong")
+    document.getElementById("test").style.display="none"
+    document.getElementById("result").style.display="block"
+    let name = localStorage.getItem("currentUser")
+    document.getElementById("score").innerText =
+    name+" natijasi: "+score+" / 20";    
+    if (score >= 15 ) {
+        cong.style.display = "block";
+        setTimeout(() => {
+                    cong.style.display = "none";
+        }, 2500);
+    }
+    let history = JSON.parse(localStorage.getItem("results")) || []
+    history.push({
+    name:name,
+    score:score
+})
+
+localStorage.setItem("results",JSON.stringify(history))
+
+loadHistory()
+}
+
+function loadHistory(){
+
+    let history = JSON.parse(localStorage.getItem("results")) || []
+    let list = document.getElementById("history")
+    list.innerHTML=""
+    history.forEach(r=>{
+    let li = document.createElement("li")
+    li.innerText = r.name+" : "+r.score+" / 20"
+    list.appendChild(li)
+})}
+
+loadHistory()
+
+
+    </script>
+
+    
+</body>    
+</html>
