@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="animatsiya.css">
 </head>
 <body style="background: rgb(41, 39, 39);">
-    <h1 id="cong">Ajoyib ball</h1>
+    <h6 id="cong">Ajoyib ball</h6>
+    <h6 id="cong2">O'z ustingizda ko'proq ishlang</h6>
+    <img id="imgs" style="display: none;margin: auto;" src="i.webp" alt="">
     <div class="animatsiyabolim1" style="z-index: 1000;">
         <div class="an"></div>
         <div class="an1"></div>
@@ -25,7 +27,7 @@
         <div class="any3"></div>
         <div class="any4"></div>
     </div>
-    <div class="container">
+    <div class="container" id="con">
     
     <h2>Matematika Test</h2>
     
@@ -139,17 +141,32 @@ function nextQuestion(){
 }
 
 function finishTest(){
-    let cong = document.getElementById("cong")
+    let cong1 = document.getElementById("cong")
+    let cong2 = document.getElementById("cong2")
+    let con = document.getElementById("con")
+    let imgs = document.getElementById("imgs")
     document.getElementById("test").style.display="none"
     document.getElementById("result").style.display="block"
     let name = localStorage.getItem("currentUser")
     document.getElementById("score").innerText =
     name+" natijasi: "+score+" / 20";    
-    if (score >= 15 ) {
-        cong.style.display = "block";
+    if (score >= 15) {
+        cong1.style.display = "block";
+        con.style.display = "none";
+        imgs.style.display = "block";
+        
         setTimeout(() => {
-                    cong.style.display = "none";
+            cong1.style.display = "none";
+            con.style.display = "block";
+            imgs.style.display = "none";
         }, 2500);
+    }else{
+        cong2.style.display = "block";
+        setTimeout(() => {
+            cong2.style.display = "none";
+            
+        }, 2500);
+
     }
     let history = JSON.parse(localStorage.getItem("results")) || []
     history.push({
