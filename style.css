@@ -15,17 +15,21 @@ position: relative;
 margin: auto;
 z-index: 1500;
 }
-#cong{
+h6{
     color: red;
     font-size: 150px;
     z-index: 1800;
     position: absolute;
     left: 25%;
-    top: 25%;
+    top: 45%;
     text-shadow: 0 0 10px red;
     margin: auto;
     display:none;
-    
+
+}
+#cong2{
+    top: 20%;
+    left: 7%;
 }
 button{
 padding:10px 20px;
